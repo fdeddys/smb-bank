@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -10,6 +9,7 @@ import (
 	"com.ocbc.smb/dto"
 	"com.ocbc.smb/model"
 	"com.ocbc.smb/services"
+	"github.com/astaxie/beego/logs"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )
@@ -40,9 +40,9 @@ func (a *AccountController) Register(c *gin.Context) {
 	dataBodyReq, _ := ioutil.ReadAll(body)
 
 	if err := json.Unmarshal(dataBodyReq, &req); err != nil {
-		fmt.Println("Error, body Request ")
-		res.ErrCode = constants.ERR_CODE_01
-		res.ErrDesc = constants.ERR_CODE_01
+		logs.Info("Failed get body request")
+		res.ErrDesc = constants.ERR_DESC_50_BODY_REQUEST
+		res.ErrCode = constants.ERR_CODE_50
 		c.JSON(http.StatusBadRequest, res)
 		c.Abort()
 		return

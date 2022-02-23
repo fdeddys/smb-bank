@@ -10,7 +10,6 @@ import (
 func main() {
 
 	serverPort := beego.AppConfig.DefaultString("httpport", "8888")
-
 	runMode := beego.AppConfig.DefaultString("gin.mode", "debug")
 	gin.SetMode(runMode)
 
