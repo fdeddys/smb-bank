@@ -5,7 +5,8 @@ import "time"
 //Account model ...
 type Account struct {
 	ID           int64     `json:"id" gorm:"column:id"`
-	UserName     string    `json:"username" gorm:"column:user_name"`
+	UserName     string    `json:"userName" gorm:"column:user_name"`
+	AccountName  string    `json:"accountname" gorm:"column:account_name"`
 	Password     string    `json:"-" gorm:"column:password"`
 	NewPassword  string    `json:"password" gorm:"-" `
 	Balance      int64     `json:"balance" gorm:"column:balance"`

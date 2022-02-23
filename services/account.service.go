@@ -41,7 +41,7 @@ func (a AccountService) RegisterAccount(account *model.Account) (res dto.Content
 	account.Password = password
 	account.NewPassword = generatedPlainPassword
 	account.LastUpdate = time.Now()
-	account.LastUpdateBy = dto.CurrUser
+	account.LastUpdateBy = account.UserName
 	return repository.RegisterAccount(*account)
 }
 
@@ -51,6 +51,7 @@ func (a AccountService) Login(login *dto.LoginDto) (res dto.ContentResponse) {
 	// check if username exist
 	resp := repository.GetAccountByUsername(login.Username)
 	if resp.ErrCode != constants.ERR_CODE_00 {
+		utils.LogInfo("Invalid username : " + login.Username)
 		res.ErrDesc = constants.ERR_DESC_53_LOGIN
 		res.ErrCode = constants.ERR_CODE_53
 		return
@@ -59,6 +60,7 @@ func (a AccountService) Login(login *dto.LoginDto) (res dto.ContentResponse) {
 	// check if password is valid
 	account := resp.Contents.(model.Account)
 	if account.Password != login.Password {
+		utils.LogInfo("Invalid password :" + login.Username)
 		res.ErrDesc = constants.ERR_DESC_53_LOGIN
 		res.ErrCode = constants.ERR_CODE_53
 		return

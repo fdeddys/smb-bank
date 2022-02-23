@@ -1,0 +1,4 @@
+{"level":"info","ts":1645637558.2573879,"msg":"get by User ID : 12"}
+{"level":"info","ts":1645637786.9816399,"msg":"Register : {}"}
+{"level":"info","ts":1645637835.5808935,"msg":"Register : {\"id\":0,\"userName\":\"Reid70\",\"accountname\":\"Derrick Aufderhar\",\"password\":\"\",\"balance\":0,\"last_update_by\":\"\",\"last_update\":\"0001-01-01T00:00:00Z\"}"}
+{"level":"info","ts":1645637937.9036381,"msg":"Login : {\"username\":\"Jesus47\",\"password\":\"d03822d4efab331d962067da6fd81204e0ce6fab7886ba9786d383c818ec6ec2\"}"}

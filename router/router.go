@@ -10,6 +10,7 @@ import (
 	"com.ocbc.smb/constants"
 	"com.ocbc.smb/controller"
 	"com.ocbc.smb/dto"
+	"com.ocbc.smb/utils"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -35,7 +36,7 @@ func InitRouter() *gin.Engine {
 
 	router_version = "/api/" + constants.API_VERSION1 + "/"
 	api := r.Group(router_version + "account")
-	api.GET("", AccountController.GetUser)
+	api.GET("", tokenChecking, AccountController.GetUser)
 	api.POST("", AccountController.Register)
 	api.POST("login", AccountController.Login)
 
@@ -49,6 +50,7 @@ func tokenChecking(c *gin.Context) {
 
 	// Prefix Bearer tidak ada
 	if strings.HasPrefix(tokenString, "Bearer ") == false {
+		utils.LogInfo("Error Bearer prefix")
 		res.ErrCode = constants.ERR_CODE_51
 		res.ErrDesc = constants.ERR_DESC_51_AUTHORIZATION
 		c.JSON(http.StatusUnauthorized, res)
@@ -58,6 +60,7 @@ func tokenChecking(c *gin.Context) {
 
 	// Isi Bearer gagal signing
 	tokenString = strings.Replace(tokenString, "Bearer ", "", -1)
+	// utils.LogInfo("Token =", tokenString)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if jwt.GetSigningMethod("HS256") != token.Method {
 			res.ErrCode = constants.ERR_CODE_51
@@ -76,10 +79,12 @@ func tokenChecking(c *gin.Context) {
 
 		tokenCreated := (claims["tokenCreated"])
 		dto.CurrUser = (claims["user"]).(string)
+		dto.CurrUserID, _ = strconv.Atoi((claims["userId"]).(string))
 
 		fmt.Println("now : ", timeNowInInt)
 		fmt.Println("token created time : ", tokenCreated)
-		fmt.Println("user by token : ", dto.CurrUser)
+		fmt.Println("user  : ", dto.CurrUser)
+		fmt.Println("user ID : ", dto.CurrUserID)
 
 		// Cek DATE TOKEN CREATED is valid ?
 		tokenCreatedInString := tokenCreated.(string)

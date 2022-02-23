@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"com.ocbc.smb/constants"
 	"com.ocbc.smb/dto"
 	"com.ocbc.smb/model"
 	"com.ocbc.smb/services"
-	"github.com/astaxie/beego/logs"
+	"com.ocbc.smb/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )
@@ -25,7 +26,8 @@ var AccountService = new(services.AccountService)
 // GetUser ...
 func (a *AccountController) GetUser(c *gin.Context) {
 
-	id := 1
+	id := dto.CurrUserID
+	utils.LogInfo("get by User ID : " + strconv.Itoa(id))
 	c.JSON(http.StatusOK, AccountService.GetAccount(id))
 	return
 }
@@ -40,14 +42,17 @@ func (a *AccountController) Register(c *gin.Context) {
 	dataBodyReq, _ := ioutil.ReadAll(body)
 
 	if err := json.Unmarshal(dataBodyReq, &req); err != nil {
-		logs.Info("Failed get body request")
+		utils.LogInfo("Failed get body request : " + err.Error())
 		res.ErrDesc = constants.ERR_DESC_50_BODY_REQUEST
 		res.ErrCode = constants.ERR_CODE_50
+		res.Contents = err.Error()
 		c.JSON(http.StatusBadRequest, res)
 		c.Abort()
 		return
 	}
 
+	bodyReq, _ := json.Marshal(&req)
+	utils.LogInfo("Register : " + string(bodyReq))
 	c.JSON(http.StatusOK, AccountService.RegisterAccount(&req))
 
 	return
@@ -63,7 +68,7 @@ func (a *AccountController) Login(c *gin.Context) {
 	dataBodyReq, _ := ioutil.ReadAll(body)
 
 	if err := json.Unmarshal(dataBodyReq, &req); err != nil {
-		logs.Info("Failed get body request")
+		utils.LogInfo("Failed get body request : " + err.Error())
 		res.ErrDesc = constants.ERR_DESC_50_BODY_REQUEST
 		res.ErrCode = constants.ERR_CODE_50
 		c.JSON(http.StatusBadRequest, res)
@@ -71,6 +76,8 @@ func (a *AccountController) Login(c *gin.Context) {
 		return
 	}
 
+	bodyReq, _ := json.Marshal(&req)
+	utils.LogInfo("Login : " + string(bodyReq))
 	c.JSON(http.StatusOK, AccountService.Login(&req))
 
 	return

@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"com.ocbc.smb/constants"
 	"com.ocbc.smb/database"
 	"com.ocbc.smb/dto"
@@ -64,6 +66,6 @@ func RegisterAccount(account model.Account) (res dto.ContentResponse) {
 
 	res.ErrCode = constants.ERR_CODE_00
 	res.ErrDesc = constants.ERR_DESC_00_SUCCESS
-	res.Contents = account.NewPassword
+	res.Contents = fmt.Sprintf("Your user name : " + account.UserName + " , your password : " + account.NewPassword)
 	return res
 }

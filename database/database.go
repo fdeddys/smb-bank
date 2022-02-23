@@ -3,8 +3,8 @@ package database
 import (
 	"fmt"
 
+	"com.ocbc.smb/utils"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -43,7 +43,7 @@ func DbOpen() error {
 	Dbcon, Errdb = gorm.Open("postgres", args)
 	// fmt.Println("isi postgres sett ", args)
 	if Errdb != nil {
-		logs.Error("open db Err ", Errdb)
+		utils.LogInfo("open db Err : " + Errdb.Error())
 		return Errdb
 	}
 	if errping := Dbcon.DB().Ping(); errping != nil {
@@ -57,10 +57,10 @@ func DbOpen() error {
 func GetDbCon() *gorm.DB {
 
 	if errping := Dbcon.DB().Ping(); errping != nil {
-		logs.Error("Db Not Connected, test Ping :", errping)
+		utils.LogInfo("Db Not Connected, test Ping :" + errping.Error())
 		errping = nil
 		if errping = DbOpen(); errping != nil {
-			logs.Error("try to connect again, but error :", errping)
+			utils.LogInfo("try to connect again, but error :" + errping.Error())
 		}
 	}
 	Dbcon.LogMode(dbdebug)
