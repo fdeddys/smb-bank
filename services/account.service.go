@@ -44,3 +44,36 @@ func (a AccountService) RegisterAccount(account *model.Account) (res dto.Content
 	account.LastUpdateBy = dto.CurrUser
 	return repository.RegisterAccount(*account)
 }
+
+// Login new Acc
+func (a AccountService) Login(login *dto.LoginDto) (res dto.ContentResponse) {
+
+	// check if username exist
+	resp := repository.GetAccountByUsername(login.Username)
+	if resp.ErrCode != constants.ERR_CODE_00 {
+		res.ErrDesc = constants.ERR_DESC_53_LOGIN
+		res.ErrCode = constants.ERR_CODE_53
+		return
+	}
+
+	// check if password is valid
+	account := resp.Contents.(model.Account)
+	if account.Password != login.Password {
+		res.ErrDesc = constants.ERR_DESC_53_LOGIN
+		res.ErrCode = constants.ERR_CODE_53
+		return
+	}
+
+	token, err := utils.GenerateToken(account.UserName, account.ID)
+	if err != nil {
+		res.ErrCode = constants.ERR_CODE_54
+		res.ErrDesc = constants.ERR_DESC_54_GENERATE_TOKEN
+		res.Contents = err.Error()
+		return
+	}
+	res.ErrCode = constants.ERR_CODE_00
+	res.ErrDesc = constants.ERR_DESC_00_SUCCESS
+	res.Contents = token
+
+	return
+}

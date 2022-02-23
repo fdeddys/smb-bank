@@ -52,3 +52,26 @@ func (a *AccountController) Register(c *gin.Context) {
 
 	return
 }
+
+// Login Account ...
+func (a *AccountController) Login(c *gin.Context) {
+
+	req := dto.LoginDto{}
+	res := dto.ContentResponse{}
+
+	body := c.Request.Body
+	dataBodyReq, _ := ioutil.ReadAll(body)
+
+	if err := json.Unmarshal(dataBodyReq, &req); err != nil {
+		logs.Info("Failed get body request")
+		res.ErrDesc = constants.ERR_DESC_50_BODY_REQUEST
+		res.ErrCode = constants.ERR_CODE_50
+		c.JSON(http.StatusBadRequest, res)
+		c.Abort()
+		return
+	}
+
+	c.JSON(http.StatusOK, AccountService.Login(&req))
+
+	return
+}

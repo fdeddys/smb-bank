@@ -37,6 +37,7 @@ func InitRouter() *gin.Engine {
 	api := r.Group(router_version + "account")
 	api.GET("", AccountController.GetUser)
 	api.POST("", AccountController.Register)
+	api.POST("login", AccountController.Login)
 
 	return r
 }

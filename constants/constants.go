@@ -26,10 +26,16 @@ const (
 	ERR_DESC_50_BODY_REQUEST = "Failed to read body request"
 
 	ERR_CODE_51               = "51"
-	ERR_DESC_51_AUTHORIZATION = "INVALID AUTHORIZATION"
+	ERR_DESC_51_AUTHORIZATION = "Invalid Authorization "
 
-	ERR_CODE_52               = "55"
+	ERR_CODE_52               = "52"
 	ERR_CODE_52_TOKEN_EXPIRED = "Token expired !"
+
+	ERR_CODE_53       = "53"
+	ERR_DESC_53_LOGIN = "Invalid Username or Password"
+
+	ERR_CODE_54                = "54"
+	ERR_DESC_54_GENERATE_TOKEN = "Failed generate token"
 )
 
 // DATABASE
