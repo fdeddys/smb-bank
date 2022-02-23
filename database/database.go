@@ -57,10 +57,10 @@ func DbOpen() error {
 func GetDbCon() *gorm.DB {
 
 	if errping := Dbcon.DB().Ping(); errping != nil {
-		logs.Error("Db Not Connect test Ping :", errping)
+		logs.Error("Db Not Connected, test Ping :", errping)
 		errping = nil
 		if errping = DbOpen(); errping != nil {
-			logs.Error("try to connect again but error :", errping)
+			logs.Error("try to connect again, but error :", errping)
 		}
 	}
 	Dbcon.LogMode(dbdebug)

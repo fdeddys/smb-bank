@@ -1,9 +1,14 @@
 package controller
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
-	"strconv"
 
+	"com.ocbc.smb/constants"
+	"com.ocbc.smb/dto"
+	"com.ocbc.smb/model"
 	"com.ocbc.smb/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -17,14 +22,33 @@ type AccountController struct {
 // AccountService ...
 var AccountService = new(services.AccountService)
 
-// GetByUser ...
-func (a *AccountController) GetByUser(c *gin.Context) {
+// GetUser ...
+func (a *AccountController) GetUser(c *gin.Context) {
 
-	id, _ := strconv.Atoi(c.Param("id"))
+	id := 1
+	c.JSON(http.StatusOK, AccountService.GetAccount(id))
+	return
+}
 
-	res := AccountService.GetAccount(id)
+// Register Account ...
+func (a *AccountController) Register(c *gin.Context) {
 
-	c.JSON(http.StatusOK, res)
-	c.Abort()
+	req := model.Account{}
+	res := dto.ContentResponse{}
+
+	body := c.Request.Body
+	dataBodyReq, _ := ioutil.ReadAll(body)
+
+	if err := json.Unmarshal(dataBodyReq, &req); err != nil {
+		fmt.Println("Error, body Request ")
+		res.ErrCode = constants.ERR_CODE_01
+		res.ErrDesc = constants.ERR_CODE_01
+		c.JSON(http.StatusBadRequest, res)
+		c.Abort()
+		return
+	}
+
+	c.JSON(http.StatusOK, AccountService.RegisterAccount(&req))
+
 	return
 }
