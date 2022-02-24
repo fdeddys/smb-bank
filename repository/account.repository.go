@@ -11,7 +11,7 @@ import (
 
 // GetAccount
 // Account by id ...
-func GetAccount(accId int) (res dto.ContentResponse) {
+func GetAccount(accId int, curBalance int64) (res dto.ContentResponse) {
 	db := database.GetDbCon()
 	db.Debug().LogMode(true)
 
@@ -24,6 +24,7 @@ func GetAccount(accId int) (res dto.ContentResponse) {
 		res.Contents = err.Error()
 		return res
 	}
+	account.Balance = curBalance
 	res.ErrCode = constants.ERR_CODE_00
 	res.ErrDesc = constants.ERR_DESC_00_SUCCESS
 	res.Contents = account

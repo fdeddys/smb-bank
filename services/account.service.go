@@ -19,7 +19,11 @@ type AccountService struct {
 // Get Account ...
 func (a AccountService) GetAccount(accId int) (res dto.ContentResponse) {
 
-	return repository.GetAccount(accId)
+	// TODO :
+	// Hit Server
+	// If success pass Balance to Local Function get account else Throw Error
+	currBalance := int64(0)
+	return repository.GetAccount(accId, currBalance)
 }
 
 // Register new Acc
@@ -31,6 +35,9 @@ func (a AccountService) RegisterAccount(account *model.Account) (res dto.Content
 		res.ErrCode = constants.ERR_CODE_10
 		return
 	}
+	// TODO :
+	// Hit Server
+	// If success add to local DB else Throw Error
 
 	// generate PASSWORD
 	generatedPlainPassword := utils.GeneratePassword(constants.MAX_LENGTH_PASSWORD)
