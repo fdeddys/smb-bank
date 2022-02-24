@@ -1,11 +1,10 @@
 # smb-bank
 ## Setting Database
-- install docker
-- pull Golang postgresql
 - User =  user_adm1n
 - Password = _pa$sw0rd321.
 - port = 5432
 - Database = db_smb
+
 
 ## Register
     curl --location --request POST 'localhost:8888/api/1.0-1/account' \
