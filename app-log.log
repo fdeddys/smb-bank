@@ -15,3 +15,12 @@
 {"level":"info","ts":1645639997.4428914,"msg":"Applied 2 migrations!"}
 {"level":"info","ts":1645640033.1819239,"msg":"Applied 1 migrations!"}
 {"level":"info","ts":1645640089.7869573,"msg":"Applied 2 migrations!"}
+{"level":"info","ts":1645661009.789232,"msg":"Applied 0 migrations!"}
+{"level":"info","ts":1645661032.0426972,"msg":"Register : {\"id\":0,\"userName\":\"Astrid7\",\"accountname\":\"Darryl Ondricka\",\"password\":\"\",\"balance\":0,\"last_update_by\":\"\",\"last_update\":\"0001-01-01T00:00:00Z\"}"}
+{"level":"info","ts":1645661263.2892354,"msg":"Login : {\"username\":\"Astrid7\",\"password\":\"b5f122be99a8fd658ae62974e473b347ab0a0d18cde6f22caa366dbf1cf0da89\"}"}
+{"level":"info","ts":1645661276.2644546,"msg":"get by User ID : 2"}
+{"level":"info","ts":1645712272.7073538,"msg":"Applied 2 migrations!"}
+{"level":"info","ts":1645712289.3002827,"msg":"Applied 0 migrations!"}
+{"level":"info","ts":1645712336.7075388,"msg":"Applied 0 migrations!"}
+{"level":"info","ts":1645712487.0947158,"msg":"Applied 0 migrations!"}
+{"level":"info","ts":1645713489.8420289,"msg":"Applied 0 migrations!"}

@@ -1,0 +1,126 @@
+# Specify the version for docker-compose.yml
+version: "3.7"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user_adm1n
+      POSTGRES_PASSWORD: _pa$sw0rd321.
+      POSTGRES_DB: db_smb
+    ports:
+      - "5432:5432"
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - docker_network
+
+  go:
+    container_name: app_be
+    environment:
+      DB_HOST : postgres
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - "postgres"
+    networks:
+      - docker_network
+    ports:
+      - 8888:8888
+
+networks:
+  docker_network:
+    name: docker_network
+    driver: bridge
+
+volumes:
+  dbdata: # create the volume for persisting data.
+
+
+
+
+# version: '3'
+# services:
+#   app:
+#     container_name: smb_app
+#     build: .
+#     ports: 
+#       - 8888:8888 
+#     restart: on-failure
+#     volumes:
+#       - api:/usr/src/app/
+#     depends_on:
+#       - app-postgres          
+#     networks:
+#       - smb_network
+
+
+#   app-postgres:
+#     image: postgres:latest
+#     container_name: smb_db_postgres
+#     environment:
+#       - POSTGRES_USER=user_adm1n  
+#       - POSTGRES_PASSWORD=_pa$sw0rd321.
+#       - POSTGRES_DB=db_smb
+#       - DATABASE_HOST=localhost
+#     ports:
+#       - '5432:5432'
+#     volumes:
+#       - database_postgres:/var/lib/postgresql/data
+#     networks:
+#       - smb_network
+    
+#   # pgadmin:
+#   #   image: dpage/pgadmin4
+#   #   container_name: pgadmin_container
+#   #   environment:
+#   #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+#   #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+#   #   depends_on:
+#   #     - fullstack-postgres
+#   #   ports:
+#   #     - "5050:80"
+#   #   networks:
+#   #     - fullstack
+#   #   restart: unless-stopped
+
+# volumes:
+#   api:
+#   database_postgres:                  
+
+# # Networks to be created to facilitate communication between containers
+# networks:
+#   smb_network:
+#     driver: bridge
+
+
+
+
+# version: "3.7"
+# services:
+#   database:
+#     image: postgres
+#     restart: always
+#     env_file:
+#       - .env
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - data:/var/lib/postgresql/data
+#   server:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     env_file: .env
+#     depends_on:
+#       - database
+#     networks:
+#       - default
+#     ports:
+#     - "8080:8080"
+# volumes:
+#   data:
+
+

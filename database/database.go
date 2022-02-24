@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"os"
 
 	"com.ocbc.smb/utils"
 	"github.com/astaxie/beego"
@@ -27,7 +28,10 @@ func init() {
 	dbtype = beego.AppConfig.DefaultString("db.type", "POSTGRES")
 	dbuser = beego.AppConfig.DefaultString("db.postgres.user", "user_adm1n")
 	dbpass = beego.AppConfig.DefaultString("db.postgres.pass", "_pa$sw0rd321.")
-	dbaddres = beego.AppConfig.DefaultString("db.postgres.addres", "localhost")
+	dbaddres = os.Getenv("DB_HOST")
+	if dbaddres == "" {
+		dbaddres = "localhost"
+	}
 	dbport = beego.AppConfig.DefaultString("db.postgres.port", "5432")
 	dbdebug = beego.AppConfig.DefaultBool("db.postgres.debug", true)
 	dbname = "db_smb"
